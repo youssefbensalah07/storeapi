@@ -15,6 +15,9 @@ public class ProductDto {
     @NotEmpty(message="The category is required")
     private String category;
 
+    @NotEmpty(message="The image is required")
+    private String imageUrl;
+
      @Min(value = 0,message = "The price is required")
     //@NotEmpty(message="The price is required")
     private String price;
@@ -63,4 +66,9 @@ public class ProductDto {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public @NotEmpty(message = "The image is required") String getImageUrl() {return imageUrl;}
+
+    public void setImageUrl(@NotEmpty(message = "The image is required") String imageUrl) {this.imageUrl = imageUrl;}
+
 }

@@ -10,19 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/api/products")
 
 public class ProductsController {
     @Autowired
     private productsRepository repos;
 
-    @GetMapping
+    @GetMapping()
     public List<Product> getProducts(){
         return repos.findAll();
 
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id){
         Product product=repos.findById(id).orElse(null);
 
@@ -32,14 +33,16 @@ public class ProductsController {
         return ResponseEntity.ok(product);
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Object> createProduct(@Valid @RequestBody ProductDto productDto, BindingResult results){
 
         double price=0;
+
         try {
             price=Double.parseDouble(productDto.getPrice());
         }
         catch (Exception e){
+
             results.addError(new FieldError("ProductsDto","price","the price should be a number"));
         }
 
@@ -61,12 +64,12 @@ public class ProductsController {
         product.setPrice(price);
         product.setDescription(productDto.getDescription());
         product.setCreatedAt(new Date());
-
+        product.setImageUrl(productDto.getImageUrl());
         repos.save(product);
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Object> updateProduct(@Valid @RequestBody ProductDto productDto, BindingResult results,@PathVariable int id){
 
         Product product=repos.findById(id).orElse(null);
@@ -102,14 +105,17 @@ public class ProductsController {
         product.setPrice(price);
         product.setDescription(productDto.getDescription());
         product.setCreatedAt(new Date());
+        product.setImageUrl(productDto.getImageUrl());
+
+
 
         repos.save(product);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok (product);
 
 
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object>deleteProduct(@PathVariable int id){
         Product product=repos.findById(id).orElse(null);
         if (product==null){

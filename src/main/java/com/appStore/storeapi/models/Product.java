@@ -13,6 +13,10 @@ public class Product {
     private String category;
     private double price;
 
+
+
+    private String imageUrl;
+
     @Column(columnDefinition = "TEXT")
     private String description;
     private Date createdAt;
@@ -72,4 +76,6 @@ public class Product {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+    public String getImageUrl() {return imageUrl;}
+    public void setImageUrl(String imageUrl) {this.imageUrl = imageUrl;}
 }
